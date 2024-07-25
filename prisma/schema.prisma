@@ -1,0 +1,61 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  profile_picture String @default("profile")
+  posts     posts[]
+  followers Follows[]
+
+}
+
+model posts{
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  content   String
+  user      user     @relation(fields: [userId], references: [id])
+  category  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  comments  comments[]
+  likes     likes[]
+  @@index(userId)
+}
+
+
+model comments{
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  content   String
+  post      posts    @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model likes{
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  post      posts    @relation(fields: [postId], references: [id])
+  
+}
+
+model Follows{
+  id        String   @id @default(cuid())
+  userId    String
+  followerId String
+  user      user     @relation(fields: [userId], references: [id])
+
+}
