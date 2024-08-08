@@ -14,22 +14,30 @@ model user {
   email     String   @unique
   password  String
   profile_picture String @default("profile")
+  description String @default("")
+    bookmarks       Bookmark[]
   posts     posts[]
   followers Follows[]
 
 }
 
+
+
 model posts{
   id        String   @id @default(cuid())
   userId    String
+  Author    String
   title     String
+  description String
+  imageUrl  String
   content   String
   user      user     @relation(fields: [userId], references: [id])
-  category  String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt 
+  postCategories PostCategory[]
+  bookmarks       Bookmark[]
   comments  comments[]
-  likes     likes[]
+  likes     Int      @default(0)
   @@index(userId)
 }
 
@@ -42,14 +50,8 @@ model comments{
   post      posts    @relation(fields: [postId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
 
-model likes{
-  id        String   @id @default(cuid())
-  userId    String
-  postId    String
-  post      posts    @relation(fields: [postId], references: [id])
-  
+  @@index(postId)
 }
 
 model Follows{
@@ -57,5 +59,31 @@ model Follows{
   userId    String
   followerId String
   user      user     @relation(fields: [userId], references: [id])
+  @@index(userId)
 
+}
+
+model Bookmark {
+  userId  String
+  postId  String
+  user    user   @relation(fields: [userId], references: [id])
+  post    posts   @relation(fields: [postId], references: [id])
+  @@id([userId, postId])
+}
+model Category {
+  id            String         @id @default(cuid())
+  name          String
+  postCategories PostCategory[]
+}
+
+
+
+model PostCategory {
+  postId    String
+  post      posts    @relation(fields: [postId], references: [id])
+  categoryId String
+  category  Category @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([postId, categoryId])
 }

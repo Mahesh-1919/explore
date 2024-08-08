@@ -9,7 +9,7 @@ export type posts = {
   userId: string;
   title: string;
   content: string;
-  category: string;
+  categoryId: string;
 };
 
 export type comment = {
@@ -21,4 +21,18 @@ export type comment = {
 export type like = {
   userId: string;
   postId: string;
+};
+
+export type uploadData = {
+  userId: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  content: any;
+  categoryId: string;
+};
+
+export type CategoriesData = {
+  id: string;
+  name: string;
 };

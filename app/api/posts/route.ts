@@ -1,33 +1,21 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import db from "@/utils/db";
-import { posts } from "@/utils/types";
 
-export const GET = async (req: NextRequest) => {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/authConfig";
+
+export const GET = async (req: Request) => {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
   try {
-    const data = await db.posts.findMany();
+    const data = await db.posts.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    console.log(data);
+
     return NextResponse.json({ data }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
-  }
-};
-
-export const POST = async (req: Request) => {
-  try {
-    const { userId, title, content, category }: posts = await req.json();
-
-    await db.posts
-      .create({
-        data: {
-          userId,
-          title,
-          content,
-          category,
-        },
-      })
-      .then((data) => {
-        return NextResponse.json({ data }, { status: 201 });
-      });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
