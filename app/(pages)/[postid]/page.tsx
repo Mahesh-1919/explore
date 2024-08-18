@@ -70,7 +70,7 @@ const Page = (props: Props) => {
 
   return (
     <div className="flex justify-center w-full overflow-y-auto  dark:text-white text-black dark:bg-background  ">
-      <div className="w-[90%] md:w-[70%]  flex justify-center flex-col items-center gap-2 mt-6  conatiner h-full overflow-y-auto ">
+      <div className="w-[90%] md:w-[70%]  flex justify-center flex-col items-center gap-2 mt-6  conatiner  overflow-y-auto h-full">
         <div className="  w-full  rounded-lg flex justify-center p-2 ">
           <Image
             src={data?.imageUrl || ""}
@@ -119,7 +119,7 @@ const Page = (props: Props) => {
           <p className=" font-bold">{data?.description}</p>
           <div
             dangerouslySetInnerHTML={{ __html: data?.content }}
-            className="md:p-4 text-wrap  p-2 h-full mb-10 "
+            className="md:p-4 text-wrap  p-2  md:mb-10 mb-40"
           />
         </div>
       </div>
