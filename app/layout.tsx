@@ -19,7 +19,7 @@ export default function RootLayout({
       <Providers>
         <body className="h-screen">
           <NavBar />
-          <div className="h-full overflow-y-auto">{children}</div>
+          <div className="h-full overflow-y-auto dark:bg-background" >{children}</div>
           <Toaster richColors />
         </body>
       </Providers>
