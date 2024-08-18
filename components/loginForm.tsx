@@ -39,9 +39,9 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center h-[95vh] items-center md:bg-cover bg-center text-black ">
-      <div className="w-full max-w-sm p-4 m-8  md:m-0 rounded-xl shadow sm:p-6 md:p-8 backdrop-blur-sm bg-secondary ">
-        <form className="space-y-6 " onSubmit={handleSubmit}>
+    <div className="flex justify-center h-[95vh] items-center md:bg-cover bg-center dark:text-white text-black">
+      <div className="w-full max-w-sm p-4 m-8  md:m-0 rounded-xl shadow sm:p-6 md:p-8 backdrop-blur-sm dark:bg-secondary bg-background   ">
+        <form className="space-y-6  " onSubmit={handleSubmit}>
           <h5 className="text-xl font-medium text-center">
             Sign in to our platform
           </h5>
@@ -53,7 +53,7 @@ export default function LoginForm() {
               type="text"
               name="number"
               id="number"
-              className="  border border-black/10 bg-black/10 text-sm rounded-xl  block w-full p-2.5 "
+              className="  border border-black/10 dark:bg-black/30  text-sm rounded-xl  block w-full p-2.5 "
               placeholder="name@company.com"
               required
               onChange={(e) => setUsername(e.target.value)}
@@ -67,7 +67,7 @@ export default function LoginForm() {
           />
           <div className="flex items-start">
             <Link
-              href={""}
+              href={"/forgotPassword"}
               className="ms-auto text-sm text-primary hover:underline "
             >
               Forgot Password
@@ -76,7 +76,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full  bg-black text-white hover:bg-primary focus:ring-4 focus:outline-none font-medium rounded-xl text-sm px-5 py-2.5 text-center"
+            className="w-full  bg-black dark:bg-white dark:text-black dark:hover:bg-white/90 text-white hover:bg-primary focus:ring-4 focus:outline-none font-medium rounded-xl text-sm px-5 py-2.5 text-center"
           >
             {isLoading ? "Loading..." : "Login to Your Account"}
           </button>
@@ -87,7 +87,10 @@ export default function LoginForm() {
           )}
           <div className="text-sm font-medium text-gray-500 ">
             Not registered?
-            <Link href={"/register"} className=" hover:underline  px-2">
+            <Link
+              href={"/register"}
+              className=" hover:underline  px-2 dark:text-white text-black"
+            >
               Create account
             </Link>
           </div>

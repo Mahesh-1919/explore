@@ -15,20 +15,21 @@ const Page = (props: Props) => {
   });
 
   return (
-    <div className="container grid grid-cols-1  gap-6 md:gap-8 lg:gap-10 flex-row   w-[80%] px-0 mt-6">
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error...</p>}
-      {data &&
-        data?.map((post: any) => (
-          <BlogCard
-            key={post?.post.id}
-            Author={post?.post?.Author}
-            Title={post?.post?.title}
-            Description={post?.post?.description}
-            imageUrl={post?.post?.imageUrl}
-            postid={post?.post?.id}
-          />
-        ))}
+    <div className="w-full h-full bg-secondary dark:bg-background overflow-y-auto md:pb-28 pb-20 ">
+      <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 flex-row mt-6 w md:w-[70%] w-full">
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error...</p>}
+        {data &&
+          data?.map((post: any) => (
+            <BlogCard
+              key={post?.post.id}
+              Title={post?.post?.title}
+              Description={post?.post?.description}
+              imageUrl={post?.post?.imageUrl}
+              postid={post?.post?.id}
+            />
+          ))}
+      </div>
     </div>
   );
 };

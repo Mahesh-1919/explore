@@ -13,10 +13,9 @@ export const GET = async (req: Request) => {
         userId: userId,
       },
     });
-    console.log(data);
 
-    return NextResponse.json({ data }, { status: 200 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json(error, { status: 500 });
   }
 };

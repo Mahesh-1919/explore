@@ -1,13 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import {
-  Sidebar,
-  UserRoundPen,
-  SquarePen,
-  Bookmark,
-  LibraryBig,
-} from "lucide-react";
+import Avatar from "./avatar";
+import { UserRoundPen, SquarePen, Bookmark, LibraryBig } from "lucide-react";
 import {
   Sheet,
   SheetClose,
@@ -15,24 +10,28 @@ import {
   SheetFooter,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useQuery } from "react-query";
 
-type Props = {
-  username: string;
-};
-export default function SheetDemo({ username }: Props) {
+type Props = {};
+export default function SheetDemo(props: Props) {
+  const { data } = useQuery("profile", async () => {
+    const res = await fetch("/api/getProfile");
+    return res.json();
+  });
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button className="bg-inherit text-black hover:bg-inherit hover:text-black/50">
-          <Sidebar />
-          <span className="hidden md:block mx-2">{username}</span>
+        <Button className="bg-inherit text-black hover:bg-inherit hover:text-black/50 dark:text-white">
+          <Avatar imgaeUrl={data?.profile_picture} />
+          <span className="hidden md:block mx-2">{data?.username}</span>
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-[40vh]">
+      <SheetContent className="w-[40vh] dark:text-white ">
         <div className="my-5">
           <ul className="  font-medium">
-            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg ">
+            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg dark:hover:text-black">
               <SheetClose asChild>
                 <Link href={"/profile"} className="flex gap-2 items-center">
                   <UserRoundPen size={20} />
@@ -40,7 +39,7 @@ export default function SheetDemo({ username }: Props) {
                 </Link>
               </SheetClose>
             </li>
-            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg ">
+            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg dark:hover:text-black ">
               <SheetClose asChild>
                 <Link href={"/NewBlog"} className="flex gap-2 items-center">
                   <SquarePen size={20} />
@@ -48,7 +47,7 @@ export default function SheetDemo({ username }: Props) {
                 </Link>
               </SheetClose>
             </li>
-            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg ">
+            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg dark:hover:text-black ">
               <SheetClose asChild>
                 <Link href={"/stories"} className="flex gap-2 items-center">
                   <LibraryBig size={20} />
@@ -56,7 +55,7 @@ export default function SheetDemo({ username }: Props) {
                 </Link>
               </SheetClose>
             </li>
-            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg ">
+            <li className=" py-2 px-4 hover:bg-slate-100 rounded-lg dark:hover:text-black ">
               <SheetClose asChild>
                 <Link href={"/favourites"} className="flex gap-2 items-center">
                   <Bookmark size={20} />

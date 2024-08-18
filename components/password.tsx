@@ -4,13 +4,9 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function Component({
-  password,
-  setPassword,
-  labels,
-  placeholder,
-}: any) {
+export default function Component({ password, setPassword, labels }: any) {
   const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="w-full max-w-sm ">
       <div className="relative space-y-2">
@@ -21,10 +17,10 @@ export default function Component({
           id={labels}
           type={showPassword ? "text" : "password"}
           required
-          placeholder={placeholder}
+          placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="bg-black/10 border border-/10 rounded-xl text-sm block w-full p-2.5"
+          className="dark:bg-black/30 border border-/10 rounded-xl text-sm block w-full p-2.5"
         />
         <Button
           size="icon"

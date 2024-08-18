@@ -107,7 +107,7 @@ const Verify = ({ type, description }: Props) => {
   };
 
   return (
-    <div className="flex justify-center h-[95vh] items-center md:bg-cover bg-center ">
+    <div className="flex justify-center h-[95vh] items-center md:bg-cover bg-center dark:bg-background ">
       <div
         className="w-full max-w-sm p-4  rounded-xl shadow sm:p-6 md:p-8 m-8  md:m-0 backdrop-blur-sm bg-secondary 
      "
@@ -123,7 +123,7 @@ const Verify = ({ type, description }: Props) => {
                 type="email"
                 name="email"
                 id="email"
-                className="  border border-black/10 bg-black/10 text-sm rounded-xl block w-full p-2.5"
+                className="  border border-black/10 dark:bg-black/30 text-sm rounded-xl block w-full p-2.5"
                 placeholder="name@company.com"
                 required
                 onChange={(e) => setEmail(e.target.value)}
@@ -142,26 +142,24 @@ const Verify = ({ type, description }: Props) => {
               placeholder="Enter otp"
               value={verifyOtp || ""}
               onChange={(e: any) => setVerifyOtp(e.target.value)}
-              className="border border-black/10 bg-black/10 text-sm rounded-xl  block w-full p-2.5 "
+              className="border border-black/10 dark:bg-black/30 text-sm rounded-xl  block w-full p-2.5 "
             />
           </div>
           <Password
             password={passwordConfirm}
             setPassword={setPasswordConfirm}
-            placeholder="Enter Password"
             labels="Password"
           />
           <Password
             password={password}
             setPassword={setPassword}
-            placeholder="Conform password"
             labels="Confirm Password"
           />
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full text-white focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-black hover:bg-primary "
+            className="w-full text-white focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-black dark:bg-white dark:text-black hover:bg-primary dark:hover:bg-white/90 "
           >
             {isLoading ? "Loading..." : "Register"}
           </button>

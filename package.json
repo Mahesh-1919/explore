@@ -16,6 +16,7 @@
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/lodash": "^4.17.7",
     "bcryptjs": "^2.4.3",
@@ -29,6 +30,7 @@
     "lucide-react": "^0.416.0",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
+    "next-themes": "^0.3.0",
     "prisma": "^5.17.0",
     "raw-loader": "^4.0.2",
     "react": "^18",
@@ -37,6 +39,7 @@
     "react-query": "^3.39.3",
     "react-quill": "^2.0.0",
     "recoil": "^0.7.7",
+    "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },

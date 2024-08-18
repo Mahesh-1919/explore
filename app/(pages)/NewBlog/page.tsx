@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -9,10 +9,13 @@ import Upload from "@/app/actions/uploadDB";
 import CategoryDropdown from "@/components/catogeryDropdown";
 import { CategoriesData } from "@/utils/types";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Page = (props: Props) => {
+  const router = useRouter();
   const initailValues = {
     title: "",
     description: "",
@@ -27,43 +30,51 @@ const Page = (props: Props) => {
   const [content, setContent] = useState("Something");
   const [image, setImage] = useState<null>(null);
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState<CategoriesData | null>(
     null
   );
-  const formRef = useRef<HTMLFormElement>(null);
 
   const Submit = async (formData: FormData) => {
     try {
+      setLoading(true);
       if (!title) {
         setError("Title is required");
+
         return;
       } else if (!description) {
         setError("Description is required");
+
         return;
       } else if (!selectedStatus) {
         setError("Category is required");
+        setLoading(false);
         return;
       } else {
         formData.append("content", content);
         if (selectedStatus) {
           formData.append("category", selectedStatus.id);
         }
+
         const res = await Upload(formData);
         if (!res) {
           setError("Something went wrong");
         } else {
-          formRef.current?.reset();
+          toast.success("Blog created successfully");
+          router.push(`/${res.id}`);
         }
+        setLoading(false);
       }
     } catch (err: any) {
       setError(err);
+      setLoading(!loading);
     }
   };
 
   return (
     <>
-      <div className="grid grid-rows-2 md:grid-cols-2  ">
-        <form className="p-8 h-full" action={Submit} ref={formRef}>
+      <div className="grid grid-rows-2 md:grid-cols-2 bg-background h-full overflow-hidden">
+        <form className="p-8 h-full" action={Submit}>
           <h1 className="font-bold text-xl">New Blog</h1>
           <div className=" mx-auto py-4">
             <Input
@@ -103,7 +114,7 @@ const Page = (props: Props) => {
               <QuillEditor content={content} setContent={setContent} />
             </div>
             <div className="flex gap-4 items-center">
-              <Button type="submit">submit</Button>
+              <Button type="submit">{loading ? "saving.." : "submit"}</Button>
               {error && <p className="text-red-500">{error}</p>}
             </div>
           </div>
@@ -115,6 +126,8 @@ const Page = (props: Props) => {
               src={URL.createObjectURL(image)}
               alt="image"
               className="w-full h-80"
+              width={400}
+              height={300}
             />
           )}
           <h1 className="text-4xl font-serif">{title}</h1>

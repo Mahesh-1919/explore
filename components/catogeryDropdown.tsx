@@ -44,14 +44,14 @@ export default function ComboboxPopover({
 
   return (
     <div className="flex items-center space-x-4">
-      <p className="text-sm text-muted-foreground">Category</p>
+      <p className="text-sm text-muted-foreground hidden md:block">Category</p>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" className="w-[150px] justify-start">
             {selectedStatus ? <>{selectedStatus.name}</> : <>catogries</>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0" side="right" align="start">
+        <PopoverContent className="p-0" side="bottom" align="start">
           <Command>
             <CommandInput placeholder="Change status..." />
             <CommandList>
@@ -65,6 +65,14 @@ export default function ComboboxPopover({
                       setSelectedStatus(
                         Categories.find(
                           (priority) => priority.name === value
+                        ) || null
+                      );
+                      setOpen(false);
+                    }}
+                    onClick={() => {
+                      setSelectedStatus(
+                        Categories.find(
+                          (priority) => priority.name === category.name
                         ) || null
                       );
                       setOpen(false);

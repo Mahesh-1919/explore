@@ -15,7 +15,7 @@ model user {
   password  String
   profile_picture String @default("profile")
   description String @default("")
-    bookmarks       Bookmark[]
+  bookmarks       Bookmark[]
   posts     posts[]
   followers Follows[]
 

@@ -8,17 +8,16 @@ import { authOptions } from "@/app/authConfig";
 dotenv.config();
 
 cloudinary.config({
-  cloud_name: "dhtuiphwt",
-  api_key: "729363333338947",
-  api_secret: "YSXIDryvICECrgnX4E9rviA76Lc",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDNARY_API_KEY,
+  api_secret: process.env.CLOUDNARY_SECRET,
   secure: true,
 });
 
-const UploadImage = async (file: File) => {
+export const UploadImage = async (file: File) => {
   try {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
     const result: any = await new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream(
@@ -45,6 +44,8 @@ const UploadImage = async (file: File) => {
 };
 
 const uploadDb = async (formData: FormData) => {
+  console.log(formData);
+
   const session: any = await getServerSession(authOptions);
   const file = formData.get("image") as File;
   const imageUrl = await UploadImage(file);

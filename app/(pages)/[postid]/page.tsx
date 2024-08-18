@@ -15,12 +15,14 @@ import { Button } from "@/components/ui/button";
 import { postLike } from "@/app/actions/likes";
 import { addBookmark, removeBookmark } from "@/app/actions/bookmark";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 type Props = {};
 
 const Page = (props: Props) => {
   const { postid } = useParams();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { data: session }: any = useSession();
+  const router = useRouter();
 
   const { data } = useQuery("post", async () => {
     const res = await fetch(`/api/posts/${postid}`, {
@@ -38,38 +40,48 @@ const Page = (props: Props) => {
   }, [data]);
 
   const addLke = async (postId: string) => {
-    const res: any = await postLike(postId);
-    setLikes(res?.likes);
-    return res;
+    if (!session) {
+      router.push("/login");
+    } else {
+      const res: any = await postLike(postId);
+      setLikes(res?.likes);
+      return res;
+    }
   };
 
   const BookMark = async (postId: string, userId: string) => {
-    try {
-      if (isBookmarked) {
-        await removeBookmark(postId, userId);
-        setIsBookmarked(false);
-      } else {
-        await addBookmark(postId, userId);
-        setIsBookmarked(true);
+    if (!session) {
+      router.push("/login");
+    } else {
+      try {
+        if (isBookmarked) {
+          await removeBookmark(postId, userId);
+          setIsBookmarked(false);
+        } else {
+          await addBookmark(postId, userId);
+          setIsBookmarked(true);
+        }
+        console.log("bookmarked");
+      } catch (err) {
+        console.log(err);
       }
-      console.log("bookmarked");
-    } catch (err) {
-      console.log(err);
     }
   };
 
   return (
-    <div className="flex justify-center w-full  h-full overflow-y-auto mt-6  ">
-      <div className="w-[90%] md:w-[70%]  flex justify-center flex-col items-center gap-2   ">
-        <div className="  bg-secondary/90 w-full  rounded-lg flex justify-center p-2 h-96">
+    <div className="flex justify-center w-full overflow-y-auto  dark:text-white text-black dark:bg-background  ">
+      <div className="w-[90%] md:w-[70%]  flex justify-center flex-col items-center gap-2 mt-6  conatiner h-full overflow-y-auto ">
+        <div className="  w-full  rounded-lg flex justify-center p-2 ">
           <Image
-            src={data?.imageUrl}
-            alt={data?.title}
-            className=" object-contain "
+            src={data?.imageUrl || ""}
+            alt={data?.title || ""}
+            className="  "
+            width={1500}
+            height={1300}
           />
         </div>
 
-        <div className="flex justify-between gap-4  w-full px-2 my-2 ">
+        <div className="flex justify-between gap-4  w-full px-2 my-2  items-center">
           <h3>{data?.Author}</h3>
           <div className="flex  gap-2 ">
             <Button
@@ -91,21 +103,23 @@ const Page = (props: Props) => {
                 <Bookmark size={20} />
               )}
             </Button>
-            <Button variant="outline" className="border-none">
+            {/* <Button variant="outline" className="border-none">
               <MessageCircleMore size={20} />
             </Button>
             <Button variant="outline" className="border-none">
               <Share size={20} />
-            </Button>
+            </Button> */}
           </div>
         </div>
         <Separator />
         <div className=" w-full h-full">
-          <h1 className="text-4xl font-medium font-serif ">{data?.title}</h1>
-          <p>{data?.description}</p>
+          <h1 className="text-4xl font-medium font-serif my-2">
+            {data?.title}
+          </h1>
+          <p className=" font-bold">{data?.description}</p>
           <div
             dangerouslySetInnerHTML={{ __html: data?.content }}
-            className="md:p-4 text-wrap  p-2 "
+            className="md:p-4 text-wrap  p-2 h-full mb-10 "
           />
         </div>
       </div>

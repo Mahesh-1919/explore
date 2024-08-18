@@ -1,28 +1,40 @@
 "use client";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { BellRing, Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import SearchBar from "./searchBar";
-
+import { useState, useEffect } from "react";
 import SideBar from "./sideBar";
 
 export default function Component() {
   const { data: session } = useSession();
+  const [theme, setTheme] = useState<Boolean>(true);
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove(theme ? "light" : "dark");
+    root.classList.add(theme ? "dark" : "light");
+  }, [theme]);
 
   return (
-    <header className="bg-background border-b px-4 md:px-6 flex items-center h-14 shrink-0 sticky top-0 z-10 justify-between">
+    <header className="bg-background border-b px-4 md:px-6 flex items-center h-14 shrink-0  justify-between dark:text-white text-black">
       <Link href="/" className="flex items-center gap-2" prefetch={false}>
         <Image src={"/explore_12546374.png"} alt="" width={30} height={30} />
         <span className="text-xl font-bold">Explore</span>
       </Link>
-      <SearchBar placeholder={"Enter Recipe"} />
 
       <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          onClick={() => setTheme(!theme)}
+          className="rounded-full  dark:bg-primary dark:text-white bg-secondary border-none dark:bg-secondary-10  "
+        >
+          {!theme ? <Moon size={20} /> : <Sun size={20} />}
+        </Button>
         {session ? (
-          <SideBar username={session?.user?.name} />
+          <>
+            <SideBar />
+          </>
         ) : (
           <>
             <Link href={"/login"}>
